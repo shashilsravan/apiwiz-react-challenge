@@ -67,7 +67,7 @@ export default function Step2({ answer, candidate, onNext }) {
         <span className="card-title">DevTools · Network</span>
       </div>
       <div className="card-body">
-        <div className="badge">⬡ CHALLENGE 02 / 06</div>
+        <div className="badge">⬡ CHALLENGE 02 / 07</div>
         <div className="step-title">Signal Intercept</div>
         <div className="step-desc">
           The gateway has more to say than what the UI shows.

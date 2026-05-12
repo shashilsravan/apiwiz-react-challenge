@@ -6,7 +6,7 @@ const LINES = [
   { txt: '[ OK ] Injecting phantom DOM elements',             ms: 1020 },
   { txt: '[ OK ] Seeding encrypted session vaults',           ms: 1350 },
   { txt: '[ OK ] Priming XOR cipher pipeline',               ms: 1680 },
-  { txt: '[WARN] 6 challenges armed — no shortcuts exist',    ms: 2050, warn: true },
+  { txt: '[WARN] 7 challenges armed — no shortcuts exist',    ms: 2050, warn: true },
   { txt: '[ OK ] System ready. Open DevTools. Stay sharp.',   ms: 2400 },
 ];
 
@@ -34,6 +34,23 @@ export default function Boot({ onStart }) {
       <div className="card-body boot-body">
         <div className="boot-logo">APIwiz</div>
         <div className="boot-tagline">FRONTEND CHALLENGE PROTOCOL v3.0</div>
+
+        <div className="boot-invite">
+          <p>
+            In the age of AI, everyone can write code — but not everyone can <em>think</em> like an engineer.
+          </p>
+          <p>
+            We built this challenge to find the ones who still open DevTools out of curiosity,
+            who read the network response even when the UI says it failed,
+            and who know that <code>innerHTML</code> is a door left open.
+          </p>
+          <p>
+            Six challenges. No hints beyond what's here. No Stack Overflow shortcut that'll save you.
+          </p>
+          <p style={{ color: 'var(--green)' }}>
+            Crack all six — and your next conversation will be with our engineering team. Directly.
+          </p>
+        </div>
 
         <div className="boot-log">
           {lines.map((l, i) => {

@@ -1,51 +1,47 @@
-import { useState, useEffect } from 'react';
+import { useEffect, useRef, useState } from 'react';
+
+const ORIGIN_X = 20;
+const ORIGIN_Y = 25;
+const STRIDE   = 20;
 
 export default function Step5({ answer, onNext }) {
-  const [value, setValue] = useState('');
+  const canvasRef        = useRef();
+  const [value, setValue]   = useState('');
   const [status, setStatus] = useState(null);
 
   useEffect(() => {
-    if (!answer) return;
+    if (!answer || !canvasRef.current) return;
+    const canvas = canvasRef.current;
+    const ctx    = canvas.getContext('2d');
 
-    // A dev left a config snapshot in before the Friday deploy.
-    // The real token is buried inside gateway.auth — but there are decoys.
-    // console.groupCollapsed so they must expand it manually.
-    console.groupCollapsed(
-      '%c[apiwiz-debug] 🚨 sprint-23 config snapshot — REMOVE BEFORE DEPLOY',
-      'color:#ff9500;font-weight:bold;font-size:12px',
-    );
-    console.log(
-      '%ccommit: a7f3e1b  ·  branch: fix/auth-bypass-temp  ·  author: someone@apiwiz.io',
-      'color:#666;font-size:10px;font-style:italic',
-    );
-    console.log('config:', {
-      env: 'production',
-      region: 'ap-south-1',
-      gateway: {
-        url: 'https://gateway.apiwiz.io/v3',
-        timeout_ms: 5000,
-        retry: 3,
-        auth: {
-          mode: 'bearer',
-          token: answer,        // ← this is the one
-          expires: 'never',
-        },
-      },
-      debug: {
-        trace_id: 'TRC-' + Math.random().toString(36).slice(2, 8).toUpperCase(),
-        session_key: 'SK-' + Math.random().toString(36).slice(2, 8).toUpperCase(),  // decoy
-        legacy_token: 'LT-' + Math.random().toString(36).slice(2, 8).toUpperCase(),  // decoy
-      },
-      cache: { ttl: 300, strategy: 'lru', hits: Math.floor(Math.random() * 999) },
-      feature_flags: { beta_ui: false, new_auth: true, analytics: false },
+    // Background gradient
+    const grad = ctx.createLinearGradient(0, 0, canvas.width, canvas.height);
+    grad.addColorStop(0,   '#070b12');
+    grad.addColorStop(0.5, '#0d1424');
+    grad.addColorStop(1,   '#111927');
+    ctx.fillStyle = grad;
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+    // Decoy noise — looks like signal interference
+    for (let i = 0; i < 1200; i++) {
+      const x = Math.floor(Math.random() * canvas.width);
+      const y = Math.floor(Math.random() * canvas.height);
+      ctx.fillStyle = `rgba(0,255,136,${(Math.random() * 0.18).toFixed(2)})`;
+      ctx.fillRect(x, y, 1, 1);
+    }
+
+    // Encode each answer char as its ASCII value in the R channel.
+    // 2×2 blocks so getImageData is reliable; visually indistinguishable from noise.
+    answer.split('').forEach((char, i) => {
+      ctx.fillStyle = `rgb(${char.charCodeAt(0)},0,0)`;
+      ctx.fillRect(ORIGIN_X + i * STRIDE, ORIGIN_Y, 2, 2);
     });
-    console.groupEnd();
   }, [answer]);
 
   function verify() {
     if (value.trim().toUpperCase().replace(/\s/g, '') === answer) {
       setStatus('ok');
-      setTimeout(onNext, 1200);
+      setTimeout(onNext, 1000);
     } else {
       setStatus('err');
     }
@@ -55,33 +51,51 @@ export default function Step5({ answer, onNext }) {
     <div className="card">
       <div className="card-titlebar">
         <span className="dot dot-r" /><span className="dot dot-y" /><span className="dot dot-g" />
-        <span className="card-title">Console · Friday Deploy · Sprint 23</span>
+        <span className="card-title">Canvas · getImageData · Steganography</span>
       </div>
       <div className="card-body">
-        <div className="badge">⬡ CHALLENGE 05 / 06</div>
-        <div className="step-title">Shipped It 🚀</div>
+        <div className="badge">⬡ CHALLENGE 05 / 07</div>
+        <div className="step-title">Dead Pixels</div>
         <div className="step-desc">
-          Someone committed a config snapshot in the middle of a debug session and
-          deployed it straight to production. We've all been there. The diff was huge,
-          nobody reviewed it properly, and now it's everyone's problem.
+          Not all pixels are decoration. This canvas carries information hidden inside
+          its pixel data — invisible to the eye, readable to anyone who knows the API.
+          <br /><br />
+          Every frontend dev knows canvas exists. Not every frontend dev knows what lives inside it.
         </div>
+
+        {/* data-origin, data-stride, data-len are the breadcrumbs */}
+        <canvas
+          id="apiwiz-render"
+          ref={canvasRef}
+          width={200}
+          height={50}
+          data-origin={`${ORIGIN_X},${ORIGIN_Y}`}
+          data-stride={STRIDE}
+          data-len={answer?.length ?? 7}
+          data-channel="R"
+          style={{ display: 'block', margin: '22px 0', borderRadius: 4, width: '100%', maxWidth: 200 }}
+        />
 
         <div className="term">
           <span className="t-block">
             <span className="t-prompt">$</span>{' '}
-            <span className="t-dim"># Hint 1: DevTools</span>
+            <span className="t-dim"># Inspect <span style={{color:'var(--cyan)'}}>canvas#apiwiz-render</span> — check its data attributes</span>
           </span>
           <span className="t-block">
             <span className="t-prompt">$</span>{' '}
-            <span className="t-dim"># Hint 2: Navigate the config object — not everything you see is the answer</span>
+            <span className="t-dim"># Use <span style={{color:'var(--cyan)'}}>getImageData(x, y, 1, 1).data[0]</span> at each encoded position</span>
+          </span>
+          <span className="t-block">
+            <span className="t-prompt">$</span>{' '}
+            <span className="t-dim"># R channel value = char code → <span style={{color:'var(--cyan)'}}>String.fromCharCode()</span> to decode</span>
           </span>
         </div>
 
-        <div className="field" style={{ marginTop: 8 }}>
-          <label className="field-label" htmlFor="debug-input">Token from the config dump</label>
+        <div className="field">
+          <label className="field-label" htmlFor="canvas-input">Decoded Key</label>
           <input
             className="field-input code-input"
-            id="debug-input"
+            id="canvas-input"
             type="text"
             placeholder="XX-XXXX"
             value={value}
@@ -90,17 +104,15 @@ export default function Step5({ answer, onNext }) {
             autoComplete="off"
           />
         </div>
-        <button className="btn btn-green" onClick={verify}>
-          SUBMIT (and please remove this from prod)
-        </button>
+        <button className="btn btn-green" onClick={verify}>DECODE & SUBMIT</button>
 
         {status === 'err' && (
           <div className="alert alert-err">
-            <strong>✗</strong> Not quite — there are decoys in the config. Find the one under <code>gateway.auth.token</code>.
+            <strong>✗</strong> Incorrect. Read the R channel values at the coordinates from the canvas data attributes.
           </div>
         )}
         {status === 'ok' && (
-          <div className="alert alert-ok">✓ Found it. Note to self: never deploy on a Friday. Moving to final challenge…</div>
+          <div className="alert alert-ok">✓ Pixel data decoded. Moving to Challenge 06…</div>
         )}
       </div>
     </div>

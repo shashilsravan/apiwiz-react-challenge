@@ -41,7 +41,7 @@ export default function Step6({ onNext }) {
         <span className="card-title">Security · XSS · innerHTML</span>
       </div>
       <div className="card-body">
-        <div className="badge">⬡ CHALLENGE 06 / 06</div>
+        <div className="badge">⬡ CHALLENGE 06 / 07</div>
         <div className="step-title">The Unlocked Door</div>
         <div className="step-desc">
           The final gate is a vulnerability. This preview field renders exactly what

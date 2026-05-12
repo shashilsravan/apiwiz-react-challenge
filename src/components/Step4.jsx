@@ -38,7 +38,7 @@ export default function Step4({ answer, onNext }) {
         <span className="card-title">Console · Prototype Chain</span>
       </div>
       <div className="card-body">
-        <div className="badge">⬡ CHALLENGE 04 / 06</div>
+        <div className="badge">⬡ CHALLENGE 04 / 07</div>
         <div className="step-title">Inherited</div>
         <div className="step-desc">
           A runtime node is active. Its surface tells you almost nothing —

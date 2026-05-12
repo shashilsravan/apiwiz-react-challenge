@@ -7,6 +7,7 @@ import Step3     from './components/Step3.jsx';
 import Step4     from './components/Step4.jsx';
 import Step5     from './components/Step5.jsx';
 import Step6     from './components/Step6.jsx';
+import Step7     from './components/Step7.jsx';
 import Final     from './components/Final.jsx';
 import { deriveAnswers } from './utils/session.js';
 
@@ -43,7 +44,8 @@ export default function App() {
         {step === 3       && <Step3 answer={answers?.dom}    onNext={() => advance(4)} />}
         {step === 4       && <Step4 answer={answers?.proto}  onNext={() => advance(5)} />}
         {step === 5       && <Step5 answer={answers?.console} onNext={() => advance(6)} />}
-        {step === 6       && <Step6 onNext={() => advance('final')} />}
+        {step === 6       && <Step6 onNext={() => advance(7)} />}
+        {step === 7       && <Step7 onNext={() => advance('final')} />}
         {step === 'final' && <Final candidate={candidate} />}
       </div>
     </>

@@ -29,7 +29,7 @@ export default function Final({ candidate }) {
           <div className="final-icon">⚡</div>
           <div className="final-title">ACCESS GRANTED</div>
           <div className="final-sub">
-            You've cleared all 5 challenges.<br />
+            You've cleared all 7 challenges.<br />
             This is exactly the kind of engineer we're hiring for.
           </div>
         </div>
@@ -46,8 +46,9 @@ export default function Final({ candidate }) {
             ['02', 'Signal Intercept   ···'],
             ['03', 'Dead Reckoning     ···'],
             ['04', 'Inherited          ···'],
-            ['05', 'Shipped It         ···'],
+            ['05', 'Dead Pixels        ···'],
             ['06', 'The Unlocked Door  ···'],
+            ['07', 'The Matrix         ···'],
           ].map(([n, label]) => (
             <span key={n} className="t-block">
               <span className="t-key">{n}</span>{' '}

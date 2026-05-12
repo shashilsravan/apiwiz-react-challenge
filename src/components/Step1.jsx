@@ -42,14 +42,14 @@ export default function Step1({ onNext }) {
         <div className="field">
           <label className="field-label" htmlFor="f-name">Full Name</label>
           <input className="field-input" id="f-name" type="text"
-            placeholder="Akash" value={name}
-            onChange={e => setName(e.target.value)} autoComplete="off" />
+            placeholder="Ada Lovelace" value={name}
+            onChange={e => setName(e.target.value)} autoComplete="new-password" />
         </div>
         <div className="field">
           <label className="field-label" htmlFor="f-email">Email Address</label>
-          <input className="field-input" id="f-email" type="email"
-            placeholder="akash@apiwiz.com" value={email}
-            onChange={e => setEmail(e.target.value)} autoComplete="off" />
+          <input className="field-input" id="f-email" type="text"
+            placeholder="you@example.com" value={email}
+            onChange={e => setEmail(e.target.value)} autoComplete="new-password" />
         </div>
 
         <br />

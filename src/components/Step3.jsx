@@ -34,7 +34,7 @@ export default function Step3({ answer, onNext }) {
         <span className="card-title">DevTools · Elements · Event Listeners</span>
       </div>
       <div className="card-body">
-        <div className="badge">⬡ CHALLENGE 03 / 06</div>
+        <div className="badge">⬡ CHALLENGE 03 / 07</div>
         <div className="step-title">Dead Reckoning</div>
         <div className="step-desc">
           Something on this page is listening. Registered, bound, silent — it will never
