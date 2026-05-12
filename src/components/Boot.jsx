@@ -1,13 +1,13 @@
 import { useEffect, useState } from 'react';
 
 const LINES = [
-  { txt: '[ OK ] Loading challenge environment',              ms: 350 },
-  { txt: '[ OK ] Mounting API gateway simulation',            ms: 680 },
-  { txt: '[ OK ] Injecting phantom DOM elements',             ms: 1020 },
-  { txt: '[ OK ] Seeding encrypted session vaults',           ms: 1350 },
-  { txt: '[ OK ] Priming XOR cipher pipeline',               ms: 1680 },
-  { txt: '[WARN] 7 challenges armed — no shortcuts exist',    ms: 2050, warn: true },
-  { txt: '[ OK ] System ready. Open DevTools. Stay sharp.',   ms: 2400 },
+  { txt: '[ OK ] Loading challenge environment', ms: 350 },
+  { txt: '[ OK ] Mounting API gateway simulation', ms: 680 },
+  { txt: '[ OK ] Injecting phantom DOM elements', ms: 1020 },
+  { txt: '[ OK ] Seeding encrypted session vaults', ms: 1350 },
+  { txt: '[ OK ] Priming XOR cipher pipeline', ms: 1680 },
+  { txt: '[WARN] 7 challenges armed — no shortcuts exist', ms: 2050, warn: true },
+  { txt: '[ OK ] System ready. Open DevTools. Stay sharp.', ms: 2400 },
 ];
 
 export default function Boot({ onStart }) {
@@ -44,24 +44,18 @@ export default function Boot({ onStart }) {
             who read the network response even when the UI says it failed,
             and who know that <code>innerHTML</code> is a door left open.
           </p>
-          <p>
-            Six challenges. No hints beyond what's here. No Stack Overflow shortcut that'll save you.
-          </p>
-          <p style={{ color: 'var(--green)' }}>
-            Crack all six — and your next conversation will be with our engineering team. Directly.
-          </p>
         </div>
 
         <div className="boot-log">
           {lines.map((l, i) => {
-            const tag  = l.txt.match(/^\[.*?\]/)?.[0] ?? '';
+            const tag = l.txt.match(/^\[.*?\]/)?.[0] ?? '';
             const rest = l.txt.replace(/^\[.*?\]\s*/, '');
-            const col  = l.warn ? 'var(--orange)' : 'var(--green)';
+            const col = l.warn ? 'var(--orange)' : 'var(--green)';
             return (
               <div key={i} className="boot-line">
                 {tag
                   ? <><span style={{ color: col }}>{tag}</span>{' '}
-                      <span style={{ color: 'var(--muted2)' }}>{rest}</span></>
+                    <span style={{ color: 'var(--muted2)' }}>{rest}</span></>
                   : <span style={{ color: 'var(--muted2)' }}>{l.txt}</span>}
               </div>
             );
