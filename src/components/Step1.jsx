@@ -20,44 +20,9 @@ export default function Step1({ onNext }) {
 
     setLoading(true);
     setError('');
-
-    const reqId = 'REQ-' + Math.random().toString(36).slice(2, 10).toUpperCase();
-
-    const { deriveAnswers } = await import('../utils/session.js');
-    const ans = deriveAnswers(email);
-
-    const payload = {
-      ts:  Date.now(),
-      rid: reqId,
-      s:   401,
-      e:   'E_AUTH_CTX_MISSING',
-      msg: 'rejected',
-      result: {
-        granted: false,
-        layers: {
-          depth: 3,
-          nodes: [
-            { lvl: 0, v: null,    sealed: true  },
-            { lvl: 1, v: null,    sealed: true  },
-            { lvl: 2, v: ans.net, sealed: false },
-          ],
-        },
-      },
-    };
-
-    const encoded = btoa(unescape(encodeURIComponent(JSON.stringify(payload))));
-    const blob    = new Blob([encoded], { type: 'text/plain' });
-    const blobUrl = URL.createObjectURL(blob);
-    try {
-      await fetch(blobUrl);
-    } finally {
-      URL.revokeObjectURL(blobUrl);
-    }
-
-    await pause(1800);
+    await pause(900);
     setLoading(false);
-    setError('Error 401 — Gateway authentication failed. Connection refused.');
-    setTimeout(() => onNext({ name, email }), 1200);
+    onNext({ name, email });
   }
 
   return (
@@ -91,7 +56,7 @@ export default function Step1({ onNext }) {
         <button className="btn btn-green" onClick={submit} disabled={loading}>
           {loading
             ? <span style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-                <span className="spin" /> CONNECTING TO GATEWAY…
+                <span className="spin" /> REGISTERING…
               </span>
             : 'SUBMIT APPLICATION'}
         </button>

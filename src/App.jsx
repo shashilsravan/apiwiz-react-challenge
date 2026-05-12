@@ -39,7 +39,7 @@ export default function App() {
 
         {step === 'boot'  && <Boot onStart={() => advance(1)} />}
         {step === 1       && <Step1 onNext={handleIdentity} />}
-        {step === 2       && <Step2 answer={answers?.net}    onNext={() => advance(3)} />}
+        {step === 2       && <Step2 answer={answers?.net} candidate={candidate} onNext={() => advance(3)} />}
         {step === 3       && <Step3 answer={answers?.dom}    onNext={() => advance(4)} />}
         {step === 4       && <Step4 answer={answers?.proto}  onNext={() => advance(5)} />}
         {step === 5       && <Step5 answer={answers?.console} onNext={() => advance(6)} />}
