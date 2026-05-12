@@ -71,10 +71,6 @@ export default function Step7({ onNext }) {
           </span>
           <span className="t-block">
             <span className="t-prompt">$</span>{' '}
-            <span className="t-dim"># Check its <span style={{ color: 'var(--orange)' }}>data-values</span> attribute and computed <span style={{ color: 'var(--orange)' }}>--reduce-op</span> CSS property</span>
-          </span>
-          <span className="t-block">
-            <span className="t-prompt">$</span>{' '}
             <span className="t-dim"># Apply the operation to the values → prefix result with <span style={{ color: 'var(--cyan)' }}>APWZ-</span> (4 digits, zero-padded)</span>
           </span>
         </div>
