@@ -3,7 +3,7 @@ import react from '@vitejs/plugin-react';
 
 export default defineConfig({
   plugins: [react()],
-  base: 'https://shashilsravan.github.io/apiwiz-react-challenge/',
+  base: '/apiwiz-react-challenge/',
   build: {
     minify: 'esbuild',
     target: 'es2020',
