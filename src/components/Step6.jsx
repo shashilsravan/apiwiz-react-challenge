@@ -6,7 +6,16 @@ export default function Step6({ onNext }) {
   const [unlocked, setUnlocked] = useState(false);
 
   useEffect(() => {
+    // __xss_active is only true for 300ms after innerHTML is set.
+    // Direct console calls happen outside that window — they're rejected.
     window.__aw_unlock = () => {
+      if (!window.__xss_active) {
+        console.warn(
+          '%c Nice try — but calling it from the console doesn\'t count. It has to fire from your payload.',
+          'color:#ff9500;font-size:12px'
+        );
+        return;
+      }
       setUnlocked(true);
       setTimeout(onNext, 1800);
     };
@@ -15,7 +24,14 @@ export default function Step6({ onNext }) {
 
   function handleInput(val) {
     setText(val);
-    if (previewRef.current) previewRef.current.innerHTML = val;
+    if (!previewRef.current) return;
+
+    // Open the XSS window, set innerHTML, close it after 300ms.
+    // Event-handler payloads (onerror, onload) fire within this window.
+    // Console calls typed by hand never will.
+    window.__xss_active = true;
+    previewRef.current.innerHTML = val;
+    setTimeout(() => { window.__xss_active = false; }, 300);
   }
 
   return (
@@ -31,22 +47,23 @@ export default function Step6({ onNext }) {
           The final gate is a vulnerability. This preview field renders exactly what
           you type — no sanitization, no escaping, raw <code>innerHTML</code>.
           <br /><br />
-          Your goal: make the browser execute <code>window.__aw_unlock()</code> through the preview field.
-          No typing it in the console — it has to come from your input.
+          Your goal: make the browser execute <code>window.__aw_unlock()</code> through
+          the preview field. Calling it from the console won't work — it has to come
+          from your payload.
         </div>
 
         <div className="term">
           <span className="t-block">
             <span className="t-prompt">$</span>{' '}
-            <span className="t-dim"># The function is already on the window: <span style={{color:'var(--cyan)'}}>window.__aw_unlock()</span></span>
+            <span className="t-dim"># Target function: <span style={{color:'var(--cyan)'}}>window.__aw_unlock()</span></span>
           </span>
           <span className="t-block">
             <span className="t-prompt">$</span>{' '}
-            <span className="t-dim"># Calling it from the console doesn't count</span>
+            <span className="t-dim"># Heads up: <span style={{color:'var(--red)'}}>&lt;script&gt;</span> tags injected via innerHTML <span style={{color:'var(--red)'}}>do not execute</span> — browser security</span>
           </span>
           <span className="t-block">
             <span className="t-prompt">$</span>{' '}
-            <span className="t-dim"># Use the preview field — craft an HTML payload that fires it</span>
+            <span className="t-dim"># Think event handlers — what fires when an element loads or fails?</span>
           </span>
         </div>
 
