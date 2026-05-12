@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 
 export default function Step5({ answer, onNext }) {
-  const [value,  setValue]  = useState('');
+  const [value, setValue] = useState('');
   const [status, setStatus] = useState(null);
 
   useEffect(() => {
@@ -19,24 +19,24 @@ export default function Step5({ answer, onNext }) {
       'color:#666;font-size:10px;font-style:italic',
     );
     console.log('config:', {
-      env:    'production',
+      env: 'production',
       region: 'ap-south-1',
       gateway: {
-        url:        'https://gateway.apiwiz.io/v3',
+        url: 'https://gateway.apiwiz.io/v3',
         timeout_ms: 5000,
-        retry:      3,
+        retry: 3,
         auth: {
-          mode:    'bearer',
-          token:   answer,        // ← this is the one
+          mode: 'bearer',
+          token: answer,        // ← this is the one
           expires: 'never',
         },
       },
       debug: {
-        trace_id:      'TRC-' + Math.random().toString(36).slice(2, 8).toUpperCase(),
-        session_key:   'SK-'  + Math.random().toString(36).slice(2, 8).toUpperCase(),  // decoy
-        legacy_token:  'LT-'  + Math.random().toString(36).slice(2, 8).toUpperCase(),  // decoy
+        trace_id: 'TRC-' + Math.random().toString(36).slice(2, 8).toUpperCase(),
+        session_key: 'SK-' + Math.random().toString(36).slice(2, 8).toUpperCase(),  // decoy
+        legacy_token: 'LT-' + Math.random().toString(36).slice(2, 8).toUpperCase(),  // decoy
       },
-      cache:         { ttl: 300, strategy: 'lru', hits: Math.floor(Math.random() * 999) },
+      cache: { ttl: 300, strategy: 'lru', hits: Math.floor(Math.random() * 999) },
       feature_flags: { beta_ui: false, new_auth: true, analytics: false },
     });
     console.groupEnd();
@@ -64,29 +64,16 @@ export default function Step5({ answer, onNext }) {
           Someone committed a config snapshot in the middle of a debug session and
           deployed it straight to production. We've all been there. The diff was huge,
           nobody reviewed it properly, and now it's everyone's problem.
-          <br /><br />
-          Open the Console. Expand the collapsed group. The token is in there —
-          but so are a few things that aren't.
         </div>
 
         <div className="term">
           <span className="t-block">
             <span className="t-prompt">$</span>{' '}
-            <span className="t-dim"># Open DevTools → Console tab</span>
+            <span className="t-dim"># Hint 1: DevTools</span>
           </span>
           <span className="t-block">
             <span className="t-prompt">$</span>{' '}
-            <span className="t-dim"># Find the collapsed group — expand it</span>
-          </span>
-          <span className="t-block">
-            <span className="t-prompt">$</span>{' '}
-            <span className="t-dim"># Navigate the config object — not everything you see is the answer</span>
-          </span>
-          <span className="t-block" style={{ marginTop: 8 }}>
-            <span style={{ color: 'var(--orange)' }}>⚠</span>{' '}
-            <span className="t-dim" style={{ fontStyle: 'italic' }}>
-              "will fix in next PR" — sprint-23, probably 🙏
-            </span>
+            <span className="t-dim"># Hint 2: Navigate the config object — not everything you see is the answer</span>
           </span>
         </div>
 

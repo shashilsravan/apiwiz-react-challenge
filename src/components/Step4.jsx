@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 
 export default function Step4({ answer, onNext }) {
-  const [value,  setValue]  = useState('');
+  const [value, setValue] = useState('');
   const [status, setStatus] = useState(null);
 
   useEffect(() => {
@@ -9,8 +9,8 @@ export default function Step4({ answer, onNext }) {
 
     class ApiwizNode {
       constructor(id) {
-        this.id        = id;
-        this.active    = true;
+        this.id = id;
+        this.active = true;
         this.timestamp = Date.now();
       }
       ping() { return `pong::${this.id}`; }
@@ -56,7 +56,7 @@ export default function Step4({ answer, onNext }) {
         <div className="term">
           <span className="t-block">
             <span className="t-prompt">$</span>{' '}
-            <span className="t-dim"># Start here: <span style={{color:'var(--cyan)'}}>window.__awNode</span></span>
+            <span className="t-dim"># Start here: <span style={{ color: 'var(--cyan)' }}>window.__awNode</span></span>
           </span>
           <span className="t-block">
             <span className="t-prompt">$</span>{' '}
@@ -64,7 +64,7 @@ export default function Step4({ answer, onNext }) {
           </span>
           <span className="t-block">
             <span className="t-prompt">$</span>{' '}
-            <span className="t-dim"># Look for <span style={{color:'var(--orange)'}}>_vault</span> — it's on the prototype, not the instance</span>
+            <span className="t-dim"># Remember <span style={{ color: 'var(--orange)' }}>_vault</span> is your best friend that you are looking for</span>
           </span>
         </div>
 
